@@ -2,9 +2,22 @@ package com.edutech.progressive.entity;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "student")
 public class Student implements Comparable<Student>{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentId;
     private String fullName;
+    @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
     private String contactNumber;
     private String email;
@@ -58,7 +71,7 @@ public class Student implements Comparable<Student>{
     }
     @Override 
     public int compareTo(Student otherStudent) {
-        return this.getFullName().compareTo(otherStudent.getFullName());
+        return this.getFullName().compareToIgnoreCase(otherStudent.getFullName());
     }
     @Override
     public String toString() {

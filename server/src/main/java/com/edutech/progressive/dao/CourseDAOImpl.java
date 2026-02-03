@@ -8,9 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.edutech.progressive.config.DatabaseConnectionManager;
 import com.edutech.progressive.entity.Course;
 
+@Repository
 public class CourseDAOImpl implements CourseDAO{
     private Connection connection;
 

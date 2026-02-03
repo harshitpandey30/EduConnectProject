@@ -4,11 +4,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.edutech.progressive.dao.CourseDAO;
 import com.edutech.progressive.dao.CourseDAOImpl;
 import com.edutech.progressive.entity.Course;
 import com.edutech.progressive.service.CourseService;
 
+@Service
 public class CourseServiceImplJdbc  implements CourseService{
      CourseDAOImpl courseDAOImpl;
     

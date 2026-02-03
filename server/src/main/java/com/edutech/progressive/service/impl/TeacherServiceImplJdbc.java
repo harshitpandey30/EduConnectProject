@@ -6,11 +6,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.edutech.progressive.dao.TeacherDAO;
 import com.edutech.progressive.dao.TeacherDAOImpl;
 import com.edutech.progressive.entity.Teacher;
 import com.edutech.progressive.service.TeacherService;
 
+@Service
 public class TeacherServiceImplJdbc  implements TeacherService{
     TeacherDAOImpl teacherDAO;
 

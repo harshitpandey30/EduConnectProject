@@ -5,6 +5,7 @@ import com.edutech.progressive.entity.Teacher;
 
 import java.util.List;
 
+
 public interface TeacherService {
 
     public List<Teacher> getAllTeachers()throws Exception;

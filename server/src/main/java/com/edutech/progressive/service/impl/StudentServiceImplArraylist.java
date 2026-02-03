@@ -2,12 +2,19 @@ package com.edutech.progressive.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
+
 import com.edutech.progressive.entity.Student;
 import com.edutech.progressive.service.StudentService;
 
-public class StudentServiceImplArraylist  implements StudentService{
-    private static List<Student> studentList=new ArrayList<>();
+@Primary
+@Service
+public class StudentServiceImplArraylist implements StudentService{
+    static List<Student> studentList=new ArrayList<>();
     @Override
     public List<Student> getAllStudents() {
         return studentList;
@@ -16,16 +23,20 @@ public class StudentServiceImplArraylist  implements StudentService{
     @Override
     public Integer addStudent(Student student) {
         studentList.add(student);
-        return studentList.size();
+        return (int)studentList.size();
+        // return null;
     }
 
     @Override
     public List<Student> getAllStudentSortedByName() {
-        Collections.sort(studentList);
+        //return null;
+        Collections.sort(studentList,Comparator.comparing(Student::getFullName));
+        // Comparator.comparing(Student::getFullName())
         return studentList;
     }
     public void emptyArrayList(){
         studentList.clear();
     }
 
+    
 }

@@ -4,6 +4,7 @@ import com.edutech.progressive.entity.Course;
 
 import java.util.List;
 
+
 public interface CourseService {
 
     public List<Course> getAllCourses()throws Exception;

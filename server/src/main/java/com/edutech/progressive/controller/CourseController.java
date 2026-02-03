@@ -1,32 +1,53 @@
 package com.edutech.progressive.controller;
 
 import com.edutech.progressive.entity.Course;
+import com.edutech.progressive.service.CourseService;
+
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/courses")
 public class CourseController {
-    public ResponseEntity<List<Course>> getAllCourses() {
-        return null;
+    private CourseService courseService;
+    
+    public CourseController(CourseService courseService) {
+        this.courseService = courseService;
     }
-
-    public ResponseEntity<Course> getCourseById(int courseId) {
-        return null;
+    @GetMapping
+    public ResponseEntity<List<Course>> getAllCourses() throws Exception{
+        return ResponseEntity.status(200).body(courseService.getAllCourses());
     }
-
-    public ResponseEntity<Integer> addCourse(Course course) {
-        return null;
+    @GetMapping("/{id}")
+    public ResponseEntity<Course> getCourseById(@PathVariable int courseId) throws Exception{
+        return ResponseEntity.status(200).body(courseService.getCourseById(courseId));
     }
-
-    public ResponseEntity<Void> updateCourse(int courseId, Course course) {
-        return null;
+    @PostMapping
+    public ResponseEntity<Integer> addCourse(@RequestBody Course course) throws Exception{
+        return ResponseEntity.status(200).body(courseService.addCourse(course));
     }
-
-    public ResponseEntity<Void> deleteCourse(int courseId) {
-        return null;
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateCourse(@PathVariable int courseId,@RequestBody Course course) throws Exception{
+        courseService.updateCourse(course);
+        return ResponseEntity.status(200).build();
     }
-
-    public ResponseEntity<List<Course>> getAllCourseByTeacherId(int teacherId) {
-        return null;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCourse(@PathVariable int courseId) throws Exception{
+        courseService.deleteCourse(courseId);
+        return ResponseEntity.status(200).build();
+    }
+    @GetMapping("/teacher/{teacherId}")
+    public ResponseEntity<List<Course>> getAllCourseByTeacherId(@PathVariable int teacherId) throws Exception{
+        return ResponseEntity.status(200).body(courseService.getAllCourseByTeacherId(teacherId));
     }
 }
