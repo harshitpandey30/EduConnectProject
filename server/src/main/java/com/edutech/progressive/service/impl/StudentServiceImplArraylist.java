@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import com.edutech.progressive.entity.Student;
 import com.edutech.progressive.service.StudentService;
 
-@Primary
-@Service
+
+@Service("studentServiceImplArraylist")
 public class StudentServiceImplArraylist implements StudentService{
     static List<Student> studentList=new ArrayList<>();
     @Override
@@ -24,14 +24,11 @@ public class StudentServiceImplArraylist implements StudentService{
     public Integer addStudent(Student student) {
         studentList.add(student);
         return (int)studentList.size();
-        // return null;
     }
 
     @Override
     public List<Student> getAllStudentSortedByName() {
-        //return null;
         Collections.sort(studentList,Comparator.comparing(Student::getFullName));
-        // Comparator.comparing(Student::getFullName())
         return studentList;
     }
     public void emptyArrayList(){

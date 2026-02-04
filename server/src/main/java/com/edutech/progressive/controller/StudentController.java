@@ -2,8 +2,11 @@ package com.edutech.progressive.controller;
 
 import com.edutech.progressive.entity.Student;
 import com.edutech.progressive.service.StudentService;
+import com.edutech.progressive.service.impl.StudentServiceImplArraylist;
+import com.edutech.progressive.service.impl.StudentServiceImplJpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,63 +25,56 @@ import java.util.List;
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    // @Autowired
-    StudentService studentService;
-    
-    
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+    StudentServiceImplArraylist studentServiceImplArraylist;
+    StudentServiceImplJpa studentServiceImplJpa;
+
+
+    public StudentController(@Qualifier("studentServiceImplArraylist")StudentServiceImplArraylist studentServiceImplArraylist,
+           @Qualifier("studentServiceImplJpa") StudentServiceImplJpa studentServiceImplJpa) {
+        this.studentServiceImplArraylist = studentServiceImplArraylist;
+        this.studentServiceImplJpa = studentServiceImplJpa;
     }
-    //----------------------------------------
-
-
     @GetMapping
     public List<Student> getAllStudents()throws Exception {
-        return new ArrayList<>();
-        // return null;
-        //return ResponseEntity.status(200).body(new ArrayList<>());
+        return studentServiceImplJpa.getAllStudents();
+        
     }
     @GetMapping("/{studentId}")
     public Student getStudentById(@PathVariable int studentId) throws Exception {
-        return null;
-        //return ResponseEntity.status(200).body(studentService.getStudentById(studentId));
+        return studentServiceImplJpa.getStudentById(studentId);
     }
     @PostMapping
     public int addStudent(@RequestBody Student student)throws Exception  {
-        //return ResponseEntity.status(200).body(studentService.addStudent(student));
-        return -1;
+        return studentServiceImplJpa.addStudent(student);
     }
     @PutMapping("/{studentId}")
     public void updateStudent(@PathVariable int studentId,@RequestBody Student student)throws Exception  {
-        //return ResponseEntity.noContent().build();
-        //studentService.updateStudent(student);
-        //return ResponseEntity.status(200).build();
+        student.setStudentId(studentId);
+        studentServiceImplJpa.updateStudent(student);
     }
     @DeleteMapping("/{studentId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudent(@PathVariable int studentId)throws Exception  {
-        //return ResponseEntity.noContent().build();
-        //studentService.deleteStudent(studentId);
-        //return ResponseEntity.status(200).build();
+        
+        studentServiceImplJpa.deleteStudent(studentId);
+        
     }
     @GetMapping("/fromArrayList")
-    public ResponseEntity<List<Student>> getAllStudentFromArrayList()throws Exception {
-        return ResponseEntity.status(200).body(studentService.getAllStudents());
-        //return null;
+    public List<Student> getAllStudentFromArrayList()throws Exception {
+        return studentServiceImplArraylist.getAllStudents();
+       
     }
     @PostMapping("/toArrayList")
     @ResponseStatus(HttpStatus.CREATED)
     public int addStudentToArrayList(@RequestBody Student student) throws Exception{
-        //return -1;
-        //return ResponseEntity.status(201).body(-1);
-        return studentService.addStudent(student);
+        
+        return studentServiceImplArraylist.addStudent(student);
     }
     @GetMapping("/fromArrayList/sorted")
     public List<Student> getAllStudentSortedByNameFromArrayList() throws Exception{
-        List<Student> list=new ArrayList<>(studentService.getAllStudents());
-        list.sort(Comparator.comparing(Student::getFullName,String.CASE_INSENSITIVE_ORDER));
+        List<Student> list=new ArrayList<>(studentServiceImplArraylist.getAllStudentSortedByName());
         return list;
-        // return null;
-        //return ResponseEntity.status(200).body(new ArrayList<>());
+        
     }
 
 

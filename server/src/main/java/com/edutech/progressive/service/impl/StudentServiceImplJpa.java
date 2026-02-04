@@ -1,6 +1,8 @@
 package com.edutech.progressive.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,42 +13,40 @@ import com.edutech.progressive.entity.Student;
 import com.edutech.progressive.repository.StudentRepository;
 import com.edutech.progressive.service.StudentService;
 
-@Service
+@Service("studentServiceImplJpa")
 public class StudentServiceImplJpa implements StudentService {
-    // private StudentRepository studentRepository;
+    private StudentRepository studentRepository;
     
-    // @Autowired
-    // public StudentServiceImplJpa(StudentRepository studentRepository) {
-    //     this.studentRepository = studentRepository;
-    // }
+    public StudentServiceImplJpa(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     @Override
     public List<Student> getAllStudents() throws Exception {
-        return new ArrayList<>();
-        //return studentRepository.findAll();
+        return studentRepository.findAll();
     }
 
     @Override
     public Integer addStudent(Student student) throws Exception {
-        //return studentRepository.save(student).getStudentId();
-        return -1;
+        return studentRepository.save(student).getStudentId();
     }
 
+    
     @Override
     public List<Student> getAllStudentSortedByName() throws Exception {
-        //return studentRepository.findAllByOrderByFullNameAsc();
-        return new ArrayList<>();
+        List<Student> l=new ArrayList<>(studentRepository.findAll());
+        Collections.sort(l);
+        return l;
     }
 
     @Override
     public void deleteStudent(int studentId) throws Exception {
-        //studentRepository.deleteById(studentId);
+        studentRepository.deleteById(studentId);
     }
 
     @Override
     public Student getStudentById(int studentId) throws Exception {
-        //return studentRepository.findById(studentId).orElse(null);
-        return null;
+        return studentRepository.findByStudentId(studentId);
     }
 
     @Override
@@ -61,8 +61,6 @@ public class StudentServiceImplJpa implements StudentService {
 
     @Override
     public void updateStudent(Student student) throws Exception {
-        //studentRepository.save(student);
+        studentRepository.save(student);
     }
-    
-
 }

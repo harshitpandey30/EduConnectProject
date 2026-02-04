@@ -4,7 +4,9 @@ import com.edutech.progressive.entity.Course;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
 
+// @Service
 public interface CourseService {
 
     public List<Course> getAllCourses()throws Exception;

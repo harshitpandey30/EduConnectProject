@@ -11,7 +11,7 @@ import com.edutech.progressive.dao.CourseDAOImpl;
 import com.edutech.progressive.entity.Course;
 import com.edutech.progressive.service.CourseService;
 
-@Service
+// @Service
 public class CourseServiceImplJdbc  implements CourseService{
      CourseDAOImpl courseDAOImpl;
     

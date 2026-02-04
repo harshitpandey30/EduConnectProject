@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.edutech.progressive.config.DatabaseConnectionManager;
 import com.edutech.progressive.entity.Course;
+import com.edutech.progressive.entity.Teacher;
 
 @Repository
 public class CourseDAOImpl implements CourseDAO{
@@ -28,7 +29,7 @@ public class CourseDAOImpl implements CourseDAO{
         try (PreparedStatement ps=connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)){
             ps.setString(1, course.getCourseName());
             ps.setString(2, course.getDescription());
-            ps.setInt(3, course.getTeacherId());
+            ps.setInt(3, course.getTeacher().getTeacherId());
             ps.executeUpdate();
             ResultSet rs=ps.getGeneratedKeys();
             if(rs.next()) return rs.getInt(1);
@@ -44,7 +45,14 @@ public class CourseDAOImpl implements CourseDAO{
             ps.setInt(1, courseId);
             ResultSet rs=ps.executeQuery();
             if(rs.next()){
-                c=new Course(rs.getInt("course_id"), rs.getString("course_name"), rs.getString("description"), rs.getInt("teacher_id"));
+                //c=new Course(rs.getInt("course_id"), rs.getString("course_name"), rs.getString("description"), rs.getInt("teacher_id"));
+                c=new Course();
+                c.setCourseId(rs.getInt("course_id"));
+                c.setCourseName(rs.getString("course_name"));
+                c.setDescription(rs.getString("description"));
+                Teacher teacher=new Teacher();
+                teacher.setTeacherId(rs.getInt("teacher_id"));
+                c.setTeacher(teacher);
             }
         }
         return c;
@@ -56,7 +64,7 @@ public class CourseDAOImpl implements CourseDAO{
         try (PreparedStatement ps=connection.prepareStatement(sql)){
             ps.setString(1, course.getCourseName());
             ps.setString(2, course.getDescription());
-            ps.setInt(3, course.getTeacherId());
+            ps.setInt(3, course.getTeacher().getTeacherId());
             ps.setInt(4, course.getCourseId());
             ps.executeUpdate();
         } 
@@ -78,7 +86,14 @@ public class CourseDAOImpl implements CourseDAO{
         try(PreparedStatement ps=connection.prepareStatement(sql)){
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                l.add(new Course(rs.getInt("course_id"), rs.getString("course_name"), rs.getString("description"), rs.getInt("teacher_id")));
+                Course c=new Course();
+                c.setCourseId(rs.getInt("course_id"));
+                c.setCourseName(rs.getString("course_name"));
+                c.setDescription(rs.getString("description"));
+                Teacher teacher=new Teacher();
+                teacher.setTeacherId(rs.getInt("teacher_id"));
+                c.setTeacher(teacher);
+                l.add(c);
             }
         }
         return l;

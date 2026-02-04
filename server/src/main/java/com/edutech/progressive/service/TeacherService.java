@@ -5,7 +5,9 @@ import com.edutech.progressive.entity.Teacher;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
 
+@Service
 public interface TeacherService {
 
     public List<Teacher> getAllTeachers()throws Exception;
